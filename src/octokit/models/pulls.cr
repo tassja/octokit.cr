@@ -1,6 +1,16 @@
 module Octokit
   module Models
     struct PullRequest
+
+      def path
+        PullRequest.path(self)
+      end
+
+      # GET /repos/{owner}/{repo}/pulls
+      def self.path(org,repo)
+        # "repos/#{org}/#{repo}/pulls"
+      end
+
       Octokit.rest_model(
         id: Int64,
         number: Int32,
