@@ -58,7 +58,6 @@ module Octokit
     # The maximum results returned per page for paginated endpoints.
     property per_page : Int32?
 
-    # The proxy to use when connecting.
     # **Note:** Crystal's `HTTP::Client` and by extension `Halite` do not yet
     # support proxy's.
     # Therefore this option does nothing for now.
