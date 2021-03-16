@@ -147,14 +147,14 @@ module Octokit
     @logger : Log = Default.logger
 
     # Get the configured logger instance.
-    def logger
-      @logger
-    end
+    # def logger
+    #   @logger
+    # end
 
     # Set a configured logger instance.
-    def logger=(val)
-      @logger = val
-    end
+    # def logger=(val)
+    #   @logger = val
+    # end
 
     @proxy : String? = nil
 

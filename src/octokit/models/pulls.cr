@@ -8,7 +8,7 @@ module Octokit
 
       # GET /repos/{owner}/{repo}/pulls
       def self.path(org,repo)
-        # "repos/#{org}/#{repo}/pulls"
+        "repos/#{org}/#{repo}/pulls"
       end
 
       Octokit.rest_model(

@@ -14,6 +14,8 @@ dependencies:
   halite:
     github: icyleaf/halite
     version: 0.12.0
+  json_mapping:
+    github: crystal-lang/json_mapping.cr
 development_dependencies:
   webmock:
     github: manastech/webmock.cr
