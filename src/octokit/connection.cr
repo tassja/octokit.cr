@@ -61,7 +61,7 @@ module Octokit
       Paginator(T).new(self, url, start_page, per_page, auto_paginate, options)
     end
 
-    # ditto
+    # :ditto:
     def paginate(
       klass : T.class,
       url : String,
