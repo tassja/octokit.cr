@@ -224,13 +224,13 @@ module Octokit
     end
 
     def ensure_basic_authenticated!
-      unless !!@login && !!@password
+      if @login.nil? || @password.nil?
         raise "Client not Basic authenticated"
       end
     end
 
     def ensure_token_authenticated!
-      unless !!@access_token
+      if @access_token.nil?
         raise "Client not Token authenticated"
       end
     end

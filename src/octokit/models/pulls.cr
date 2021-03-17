@@ -1,7 +1,6 @@
 module Octokit
   module Models
     class PullRequest
-
       # def path
       #   puts PullRequest.path(self)
       # end

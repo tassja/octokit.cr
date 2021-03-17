@@ -86,9 +86,9 @@ module Octokit
         if basic_authenticated?
           basic_auth(@login.to_s, @password.to_s)
         elsif token_authenticated?
-          auth("Token #{@access_token.to_s}")
+          auth("Token #{@access_token}")
         elsif bearer_authenticated?
-          auth("Bearer #{@access_token.to_s}")
+          auth("Bearer #{@access_token}")
         end
         user_agent(@user_agent)
         accept(Default::MEDIA_TYPE)
@@ -342,7 +342,7 @@ module Octokit
       # Utility method to set the `@total_pages` variable.
       private def set_total_pages!
         return 0 if @client.last_response.nil?
-        if links = @client.last_response.try { |r| r.links }
+        if links = @client.last_response.try &.links
           return 0 unless links["last"]?
           if target = links["last"].target
             if match = target.match(/page=([0-9]+)/)

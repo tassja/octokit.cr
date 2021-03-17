@@ -13,7 +13,7 @@ HI8.configure do |config|
     uri = URI.parse(request.uri)
     query = uri.query.to_s
     uri.query = ""
-    req_headers = recorder.headers_from_hash(request.headers)
+    recorder.headers_from_hash(request.headers)
     req_query = HTTP::Params.try(&.parse(query)).to_h
     res_status = response.status.to_i
     res_headers = recorder.headers_from_hash(response.headers)
