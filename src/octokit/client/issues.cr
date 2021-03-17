@@ -48,7 +48,7 @@ module Octokit
       # @client.list_issues
       # ```
       def list_issues(repo = nil, **options)
-        validate_options(options)
+        # validate_options(options)
         path = repo ? "#{Repository.path(repo)}/issues" : "issues"
         paginate Issue, path, options: {json: options}
       end
