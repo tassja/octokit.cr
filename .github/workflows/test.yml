@@ -54,16 +54,6 @@ jobs:
       - name: ${{ matrix.canary && 'Update' || 'Install' }} shards
         if: ${{ matrix.canary || steps.cache-shards.outputs.cache-hit != 'true' }}
         run: shards ${{ matrix.canary && 'update' || 'install' }} --ignore-crystal-version
-      - name: shard.lock diff
-        if: ${{ matrix.canary }}
-        id: diff
-        uses: mudlabs/simple-diff@v1.2.0
-        with:
-          path: shard.lock
-          strict: false
-      - name: Render shard.lock diff
-        if: ${{ matrix.canary && steps.diff.modified }}
-        run: git diff shard.lock
       - name: Run crystal spec
         if: ${{ !matrix.canary || steps.diff.modified }}
         timeout-minutes: 25
