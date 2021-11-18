@@ -1,24 +1,23 @@
 module Octokit
   module Models
     struct Tree
-      Octokit.rest_model(
-        sha: String,
-        entries: Array(TreeEntry),
+      include JSON::Serializable
+      getter sha : String
+      getter url : Array(TreeEntry)
 
-        truncated: Bool
-      )
+      def initialize(@sha, @url)
+      end
     end
 
     struct TreeEntry
-      Octokit.rest_model(
-        sha: String,
-        path: String,
-        mode: String,
-        type: String,
-        size: Int32,
-        content: String,
-        url: String
-      )
+      include JSON::Serializable
+      getter sha : String
+      getter path : String
+      getter mode : String
+      getter type : String
+      getter size : Int32
+      getter content : String
+      getter url : String
     end
   end
 end

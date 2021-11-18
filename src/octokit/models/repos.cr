@@ -60,13 +60,13 @@ module Octokit
         svn_url: String?,
         language: String?,
         fork: Bool,
-        forks_count: { type: Int32, default: 0 },
-        network_count: { type: Int32, default: 0 },
-        open_issues_count: { type: Int32, default: 0 },
-        stargazers_count: { type: Int32, default: 0 },
-        subscribers_count: { type: Int32, default: 0 },
-        watchers_count: { type: Int32, default: 0 },
-        size: { type: Int32, default: 0 },
+        forks_count: {type: Int32, default: 0},
+        network_count: {type: Int32, default: 0},
+        open_issues_count: {type: Int32, default: 0},
+        stargazers_count: {type: Int32, default: 0},
+        subscribers_count: {type: Int32, default: 0},
+        watchers_count: {type: Int32, default: 0},
+        size: {type: Int32, default: 0},
         auto_init: Bool?,
         parent: Repository?,
         source: Repository?,
@@ -170,13 +170,16 @@ module Octokit
     end
 
     struct RepositoryTag
-      Octokit.rest_model(
-        name: String,
-        commit_sha: {type: String, root: "commit", key: "sha"},
-        commit_url: {type: String, root: "commit", key: "url"},
-        zipball_url: String,
-        tarball_url: String
-      )
+      include JSON::Serializable
+
+      getter name : String?
+      # getter commit_sha : {type: String, root: "commit", key: "sha"}
+      # getter commit_url : {type: String, root: "commit", key: "url"}
+      getter zipball_url : String?
+      getter tarball_url : String?
+
+      def initialize(@name, @zipball_url, @tarball_url)
+      end
     end
 
     struct RepositoryListByOrgOptions

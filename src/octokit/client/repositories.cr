@@ -510,7 +510,24 @@ module Octokit
       # @client.tags("watzon/cadmium")
       # ```
       def tags(repo)
-        paginate RepositoryTag, "#{Repository.path(repo)}/tags"
+        paginate Models::RepositoryTag, "#{Repository.path(repo)}/tags"
+      end
+
+      # List commits
+      #
+      # **Note:** Requires authenticated client for private repos.
+      #
+      # **See Also:**
+      # - [https://developer.github.com/v3/repos/#list-commits](https://developer.github.com/v3/repos/#list-commits)
+      #
+      # **Examples:**
+      # ```
+      # Octokit.client.commits("watzon/cadmium")
+      # @client.commits("watzon/cadmium")
+      # ```
+
+      def commits(repo : String, sha : String? = "")
+        paginate Models::RepoCommit, "#{Repository.path(repo)}/commits?sha=#{sha}"
       end
 
       # List branches

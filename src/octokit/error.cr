@@ -9,6 +9,8 @@ module Octokit
 
     # Returns the appropriate Octokit::Error subclass based
     # on status and response message
+    #
+    # ameba:disable Metrics/CyclomaticComplexity
     def self.from_response(response : Halite::Response)
       status = response.status_code
       body = response.body
@@ -129,7 +131,7 @@ module Octokit
       # TODO: Clean this up
       xml = XML.parse(@response.not_nil!.body)
       title = xml.xpath_node("//title")
-      @data ||= JSON.parse("\{\"message\": \"#{title.not_nil!.content}\"}")
+      @data ||= JSON.parse("{\"message\": \"#{title.not_nil!.content}\"}")
     end
 
     private def response_message
@@ -153,7 +155,7 @@ module Octokit
         summary << "\nError summary:\n"
         data["errors"].as_a.each do |error|
           if error.is_a?(Hash)
-            summary << error.map { |k, v| "  #{k}: #{v}" }.join('\n')
+            summary << error.join('\n') { |k, v| "  #{k}: #{v}" }
           elsif error.is_a?(String)
             summary << "  #{error}"
           end

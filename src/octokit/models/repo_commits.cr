@@ -18,11 +18,10 @@ module Octokit
     end
 
     struct CommitStats
-      Octokit.rest_model(
-        additions: Int32,
-        deletions: Int32,
-        total: Int32
-      )
+      include JSON::Serializable
+      getter additions : Int32
+      getter deletions : Int32
+      getter total : Int32
     end
 
     struct CommitFile

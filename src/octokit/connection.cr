@@ -61,7 +61,7 @@ module Octokit
       Paginator(T).new(self, url, start_page, per_page, auto_paginate, options)
     end
 
-    # ditto
+    # :ditto:
     def paginate(
       klass : T.class,
       url : String,
@@ -86,9 +86,9 @@ module Octokit
         if basic_authenticated?
           basic_auth(@login.to_s, @password.to_s)
         elsif token_authenticated?
-          auth("Token #{@access_token.to_s}")
+          auth("Token #{@access_token}")
         elsif bearer_authenticated?
-          auth("Bearer #{@access_token.to_s}")
+          auth("Bearer #{@access_token}")
         end
         user_agent(@user_agent)
         accept(Default::MEDIA_TYPE)
@@ -230,6 +230,27 @@ module Octokit
         records
       end
 
+      # Get the first record
+      def first
+        @records[0]
+      end
+
+      # Get the first record, returning `nil` if
+      # the index contains no records.
+      def first?
+        @records[0]?
+      end
+
+      # Get the last record
+      def last
+        @records[-1]
+      end
+
+      # Get a range of records
+      def range(first, last)
+        @records[first..last]
+      end
+
       alias_method :fetch_all, :all
 
       # Fetch a specific page.
@@ -342,7 +363,7 @@ module Octokit
       # Utility method to set the `@total_pages` variable.
       private def set_total_pages!
         return 0 if @client.last_response.nil?
-        if links = @client.last_response.try { |r| r.links }
+        if links = @client.last_response.try &.links
           return 0 unless links["last"]?
           if target = links["last"].target
             if match = target.match(/page=([0-9]+)/)
