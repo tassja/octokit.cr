@@ -1,6 +1,6 @@
 name: Test Crystal Spec
 on:
-  workflow_call:
+  push
 
 jobs:
   test:
