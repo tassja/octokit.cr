@@ -1,0 +1,75 @@
+name: Test Crystal Spec
+on:
+  workflow_call:
+
+jobs:
+  test:
+    name: "${{ !matrix.stable && '🚧 ' || ''}}crystal: ${{ matrix.crystal }}, MT: ${{ matrix.MT }}, canary: ${{ matrix.canary }}"
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        crystal:
+          - 1.2.1
+          - 1.2.2
+        MT: [false]
+        canary: [false]
+        stable: [true]
+        include:
+          - crystal: 1.2.1
+            canary: false
+            MT: true
+            stable: false
+          - crystal: nightly
+            canary: false
+            stable: false
+            MT: false
+          - crystal: nightly
+            canary: false
+            stable: false
+            MT: true
+          - crystal: 1.2.1
+            canary: true
+            MT: true
+            stable: false
+          - crystal: nightly
+            canary: true
+            stable: false
+            MT: false
+          - crystal: nightly
+            canary: true
+            stable: false
+            MT: true
+    continue-on-error: ${{ !matrix.stable }}
+    steps:
+      - name: Install crystal
+        uses: crystal-lang/install-crystal@v1.5.3
+        with:
+          crystal: ${{ matrix.crystal }}
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        id: cache-shards
+        with:
+          path: |
+            lib
+            bin
+          key: ${{ hashFiles('shard.lock') }}
+      - name: ${{ matrix.canary && 'Update' || 'Install' }} shards
+        if: ${{ matrix.canary || steps.cache-shards.outputs.cache-hit != 'true' }}
+        run: shards ${{ matrix.canary && 'update' || 'install' }} --ignore-crystal-version
+      - name: shard.lock diff
+        if: ${{ matrix.canary }}
+        id: diff
+        uses: mudlabs/simple-diff@v1.2.0
+        with:
+          path: shard.lock
+          strict: false
+      - name: Render shard.lock diff
+        if: ${{ matrix.canary && steps.diff.modified }}
+        run: git diff shard.lock
+      - name: Run crystal spec
+        if: ${{ !matrix.canary || steps.diff.modified }}
+        timeout-minutes: 25
+        run: crystal spec --error-trace --order random
+        env:
+          CRYSTAL_VERSION: ${{ matrix.crystal }}
