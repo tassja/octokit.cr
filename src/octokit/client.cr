@@ -119,9 +119,6 @@ module Octokit
     include Octokit::Client::Statuses
     include Octokit::Client::Say
 
-    include Octokit::Client::Commits
-    include Octokit::Client::Branches
-
     CONVENIENCE_HEADERS = Set{"accept", "content_type"}
 
     # Create a new Client instance.
