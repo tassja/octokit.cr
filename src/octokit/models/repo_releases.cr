@@ -1,45 +1,46 @@
 module Octokit
   module Models
     struct RepositoryRelease
-      Octokit.rest_model(
-        tag_name: String,
-        target_commitish: String,
-        name: String,
-        body: String,
-        draft: Bool,
-        prerelease: Bool,
+      include JSON::Serializable
+      getter tag_name : String
+      getter name : String
+      getter body : String
+      getter draft : Bool
+      getter prerelease : Bool
 
-        id: Int64?,
-        created_at: {type: Time?, converter: Time::ISO8601Converter},
-        published_at: String?,
-        url: String?,
-        html_url: String?,
-        assets_url: String?,
-        assets: Array(ReleaseAsset)?,
-        upload_url: String,
-        zipball_url: String?,
-        tarball_url: String?,
-        author: User?,
-        node_id: String?
-      )
+      getter id : Int64?
+      getter created_at : Time?
+      getter published_at : String
+      getter url : String?
+      # getter html_url : String?,
+      getter assets_url : String?
+      getter assets : Array(ReleaseAsset)?
+
+      # getter upload_url : String,
+      # getter zipball_url : String?,
+      # getter tarball_url : String?,
+      # getter author : User?,
+      # getter node_id : String?
+
+      def initialize(@tag_name, @name, @body, @id, @draft, @prerelease, @created_at, @published_at, @url, @assets_url, @assets)
+      end
     end
 
     struct ReleaseAsset
-      Octokit.rest_model(
-        id: Int32,
-        url: String,
-        name: String,
-        label: String?,
-        state: String,
-        content_type: String,
-        size: Int32,
-        download_count: Int32,
-        created_at: {type: Time, converter: Time::ISO8601Converter},
-        updated_at: {type: Time, converter: Time::ISO8601Converter},
-        browser_download_url: String,
-        uploader: User,
-        node_id: String
-      )
+      include JSON::Serializable
+      getter id : Int32
+      getter url : String
+      getter name : String
+      getter label : String?
+      getter state : String
+      getter content_type : String
+      getter size : Int32
+      getter download_count : Int32
+      getter created_at : Time
+      getter updated_at : Time
+
+      def initialize(@id, @url, @name, @label, @state, @content_type, @size, @download_count, @created_at, @updated_at)
+      end
     end
 
     struct RepositoryReleaseRequest
